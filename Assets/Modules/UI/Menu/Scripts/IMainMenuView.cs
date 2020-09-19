@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Game.Menu
+namespace Game.UI
 {
     public interface IMainMenuView
     {

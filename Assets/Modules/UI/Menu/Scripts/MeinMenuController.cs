@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.Menu
+namespace Game.UI
 {
     internal class MeinMenuController : MonoBehaviour, IMainMenuView
     {
@@ -15,7 +15,6 @@ namespace Game.Menu
 
         private void Awake() {
             m_GameStartButton.onClick.AddListener(() => {
-                Debug.Log("Button Clicked");
                 OnStartButtonPressed?.Invoke();
             });
         }

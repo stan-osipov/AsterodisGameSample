@@ -1,0 +1,16 @@
+{
+    "name": "StansAssets.Demo.GamePlay",
+    "references": [
+        "GUID:594a2a068005a493bb2b02dc42098d74",
+        "GUID:db0eb1f6c1244402aa4d287a997cdb47"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

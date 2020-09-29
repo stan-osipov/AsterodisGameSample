@@ -1,39 +1,81 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Game.Core;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace Game.GamePlay
 {
-    internal class AsteroidSpawner : MonoBehaviour
+    class AsteroidSpawner : MonoBehaviour
     {
+        [SerializeField, Range(1, 5)]
+        float m_SpawnRang = 1f;
+
+        [SerializeField, Range(0.1f, 5f)]
+        float m_SpawnRateMin = 1f;
+
+        [SerializeField, Range(5f, 10f)]
+        float m_SpawnRateMax = 1f;
+
+        [SerializeField]
+        List<Asteroid> m_Asteroids = new List<Asteroid>();
+        public Camera Camera;
         
-        [ContextMenu("test Spawn")]
-        private void Spawn()
+        void Awake()
         {
-            
-            Debug.Log("Spanw");
+            DestroyComponent<MeshRenderer>();
+            DestroyComponent<MeshFilter>();
+
+            StartCoroutine(SpawnLoop());
+        }
+
+        void DestroyComponent<T>() where T : Component
+        {
+            var component = GetComponent<T>();
+            if (component != null)
+                Destroy(component);
+        }
+
+        IEnumerator SpawnLoop()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(Random.Range(m_SpawnRateMin, m_SpawnRateMax));
+                Spawn();
+            }
+        }
+
+        [ContextMenu("Test Spawn")]
+        void Spawn()
+        {
             CreateAsteroid();
         }
 
         void OnDrawGizmos()
         {
-            Gizmos.color = Color.red;
-            //Gizmos.DrawIcon(transform.position);
-            Gizmos.DrawSphere(transform.position, 1f);
+            Gizmos.color = Color.green;
+
+            var from = transform.position;
+            from.x -= m_SpawnRang;
+
+            var to = transform.position;
+            to.x += m_SpawnRang;
+
+            Gizmos.DrawLine(from, to);
         }
 
-        private GameObject CreateAsteroid()
+        void CreateAsteroid()
         {
-            var index = Random.Range(1, 5);
-            var res = Resources.Load($"Asteroids/Asteroid_{index}");
-            var asteroid = (GameObject) Instantiate(res, Vector3.zero, Quaternion.identity, transform);
-            asteroid.transform.localPosition = Vector3.zero;;
+            var index = Random.Range(0, m_Asteroids.Count - 1);
+            var asteroid = Serivces.Get<IPoolingService>().Instantiate<Asteroid>(m_Asteroids[index].gameObject);
+
+            var asteroidGameObject = asteroid.gameObject;
+            var spawnSpread = Random.Range(-m_SpawnRang, m_SpawnRang);
+            asteroidGameObject.transform.SetParent(transform);
+            asteroidGameObject.transform.localPosition = new Vector3(spawnSpread, 0, 0);
             
-            return  asteroid;
+            var v = GameServices.Get<CameraService>().MainCamera.transform.position - transform.position;
+            asteroidGameObject.GetComponent<Rigidbody>().AddForce(v.normalized * 250f);
         }
     }
 }
-

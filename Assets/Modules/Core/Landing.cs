@@ -2,10 +2,12 @@
 
 namespace Game.Core
 {
-    internal class Landing : MonoBehaviour
+    class Landing : MonoBehaviour
     {
-        private void Start() {
+        void Start() {
             Debug.Log("Start Landing");
+            
+            Serivces.Register(new GameObjectsPool("Pool"));
             ApplicationManager.OpenMainMenu();
         }
     }

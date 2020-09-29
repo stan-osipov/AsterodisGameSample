@@ -1,5 +1,23 @@
 {
+    "scopedRegistries": [
+      {
+        "name": "npmjs",
+        "url": "https://registry.npmjs.org/",
+        "scopes": [
+          "com.stansassets"
+        ]
+      },
+      {
+        "name": "Game Package Registry by Google",
+        "url": "https://unityregistry-pa.googleapis.com",
+        "scopes": [
+          "com.google"
+        ]
+      }
+    ],
   "dependencies": {
+      "com.stansassets.foundation": "1.0.14",
+      "com.stansassets.scene-management": "0.0.12-preview",
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.ide.rider": "1.1.4",
     "com.unity.ide.vscode": "1.2.1",
